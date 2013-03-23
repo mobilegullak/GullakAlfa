@@ -1,0 +1,70 @@
+
+Creating a feed
+Example 	http://api.cosm.com/v2/feeds
+Formats 	xml, json
+Methods 	POST
+Returns 	URL of the newly created feed in headers
+
+{
+  "title":"Cosm Office environment",
+  "website":"http://www.example.com/",
+  "version":"1.0.0",
+  "tags":[
+      "Tag1",
+      "Tag2"
+  ],
+  "location":{
+    "disposition":"fixed",
+    "ele":"23.0",
+    "name":"office",
+    "lat":51.5235375648154,
+    "exposure":"indoor",
+    "lon":-0.0807666778564453,
+    "domain":"physical"
+  },
+  "datastreams":[
+    {
+      "current_value":"123",
+      "max_value":"10000.0",
+      "min_value":"-10.0",
+      "tags":["humidity"],
+      "id":"0"
+    },
+    {
+      "current_value":"987",
+      "max_value":"10000.0",
+      "min_value":"-10.0",
+      "tags":["humidity"],
+      "id":"1"
+    }
+  ]
+}
+
+A minimal version of this, with only the required parameters is:
+
+{
+  "title":"Cosm Office environment",
+  "version":"1.0.0",
+  "datastreams":[
+    {
+      "id":"0"
+    },
+    {
+      "id":"1"
+    }
+  ]
+}
+
+
+
+
+HTTP/1.1 201 Created
+Date: Thu, 07 Mar 2013 15:45:21 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 0
+Connection: keep-alive
+X-Request-Id: f18b33c417b68fabc3471e2fdae2585d52e6116b
+Location: http://api.cosm.com/v2/feeds/117996
+
+null
+

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="styles/kendo.mobile.all.min.css" />
+        <script type="text/javascript" charset="utf-8" src="cordova-2.4.0.js"></script>
+	
+    	<script src="js/jquery.min.js"></script>
+    	<script src="js/kendo.mobile.min.js"></script>
+        <title>COSM App</title>
+        <script>
+	
+        function onBodyLoad()
+		{		
+			document.addEventListener("deviceready", onDeviceReady, false);
+		}
+	
+		/* When this function is called, PhoneGap has been initialized and is ready to roll */
+		function onDeviceReady()
+		{
+			// do your thing!
+			//var template = kendo.template($("#home").html(), {useWithBlock:false});
+		}
+		</script>
+		 <style scoped>
+.button {
+	margin: 0 0 0 1em;
+	text-align: center;
+}
+
+.button:first-of-type {
+	margin: 0 0 0 1em;
+}
+
+.home {
+	background: url('img/Cosm-144x144.png') no-repeat center center;
+}
+
+#home .head {
+	display: block;
+	margin: 1em;
+	height: 350px;
+	-webkit-background-size: 100% auto;
+	background-size: 100% auto;
+}
+/*
+.km-root .km-pane .km-view .km-wifi {
+    background-size: 100% 100%;
+    -webkit-background-clip: border-circle;
+    background-color: orange;
+}
+.km-ios .hmbtn { background-color: green; }
+.km-android .hmbtn { background-color: red; }
+*/
+/* Custom icon 
+.km-root .km-pane .km-view .km-question {
+    background-size: 100% 100%;
+    -webkit-background-clip: border-box;
+    background-color: currentcolor;
+}
+
+.km-question {
+    -webkit-mask-box-image: url("res/icon/android/icon-36-ldpi.png");
+    background-color: red;
+}
+*/
+
+
+/*#tab 
+{
+    background-color: orange;
+}
+*/
+
+.k-tabstrip .k-content {
+    height: 500px;
+}
+/* Changes the color of icon*/
+/*#tab .km-icon 
+{
+	background: orange;
+} 
+*/
+/* This changes the tabsrtips bottom strips color*/
+.km-android .km-tabstrip {
+	background: orange;
+}
+/* Makes everything orange in acive tab
+.km-android .km-tabstrip .km-state-active{
+	background: orange;
+}*/
+.km-android .heads {
+	color: green;
+}
+
+.km-ios .head,.km-blackberry .head {
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+}
+</style>
+</head>
+    <body onload="onBodyLoad()">
+    	<!-- Home Page layout declarations -->
+    	<div id="home" data-role="view" data-title="MainPage" data-layout="home-layout">
+    		<div class="home head">&nbsp;</div>   
+    		<a class="button" data-role="button" href="#KEY" style="color: #fff; background-color: #f60">Enter API key</a>
+    		<a class="button" data-role="button" href="#FEED"style="color: #fff; background-color: #f60">Feeds</a>
+   		 	<a class="button" data-role="button" href="#SETTING"style="color: #fff; background-color: #f60">Setting</a>
+    		<ul data-role="listview" data-style="inset">
+        		<li>
+            		<p>This is a test app.
+            			The three buttons Enter API key, Feeds and Setting are currently can be used<br>
+            		</p>
+            	</li>
+            	<li>
+            		<p>
+            			<b><font color="orange">Enter Api key:</font></b> Lets you enter the APi key that you created online for your profile. 
+            			This key will be used for all the data feed uploads<br>
+            		</p>
+            	</li>
+            	<li>
+            		<p>
+            			<b><font color="orange">Feeds:</font></b> This lets you decide the data that you want to upload
+            		</p>
+            	</li>
+            	<li>
+            		<p>
+            			<b> <font color="orange">Settings:</font></b> This lets you decide the frequency of uploading
+            		</p>
+            	</li>
+    		</ul>
+    		
+    		
+    		
+    	</div>
+    	<!-- Page wise layout declarations -->
+        <div id="KEY" data-role="view" data-title="Enter-API Key" data-layout="home-layout"  data-init="Accelfunct">Enter-API Key
+        	<div id="accel" data-template="accelTemplate">Enter API key</div>
+        </div>
+        
+        <div id="FEED" data-role="view" data-title="Feeds" data-layout="home-layout"  data-init="Accelfunct">Create FEED
+        	<div id="accel" data-template="accelTemplate"> Create Feed</div>
+        </div>
+        
+        <div id="SETTING" data-role="view" data-title="Setting" data-layout="home-layout"  data-init="Accelfunct">Setting
+        	<div id="accel" data-template="accelTemplate"> Setting</div>
+        </div>
+        
+        <!--  Not used -->
+        <!-- page Template declarations -->
+        <script type="text/x-kendo-template" id="accelTemplate">
+		<div class="title">${ x }</div>
+	</script>
+        <!-- Not used -->
+    	<script type="text/x-kendo-tmpl" id="list">
+			<div class="list">
+				<img class="Btn" src="img/Cosm-144x144.png"/>
+				<strong>#:  data #</strong>
+			</div>
+		</script>
+		
+		<!-- How page will look: Layouts -->
+    	<div id="homelayout" data-role="layout" data-id="home-layout">
+    		<div data-role="footer">
+    			<div data-role="navbar"> </div>
+    			<span data-role="view-title"> </span>
+    		</div>
+    		<div class="heads" data-role="header">
+    			<div id="tab" data-role="tabstrip" >
+    				<a data-icon="home" href="#home" >HOME</a>
+    				<a class="k-state-active" data-icon="add" href="#KEY">API-KEY</a>
+    				<a data-icon= "wifi" href="#FEED">FEED</a>
+    				<a data-icon="about" href="#SETTING">HOME</a>
+    			</div>
+    		</div>
+    	</div>
+    	
+        
+        <script type="text/javascript">
+        	window.vars = ["Enter API key", "Create Feed", "Setting"];
+        	window.x; 
+        	// The watch id references the current `watchAcceleration`
+            var watchID = null;
+
+        	var app = new kendo.mobile.Application(document.body, { transition: "slide" });
+        	
+        	var Accelfunct = function(){
+        		// Update acceleration every 100ms
+                var options = { frequency: 1000 };
+                
+        	}
+        	
+        	
+        	// onError: Failed to get the acceleration
+            //
+            function onError() {
+                alert('onError!');
+            }
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,40 @@
+
+Creating an API key
+Example 	http://api.cosm.com/v2/keys
+Formats 	json, xml
+Methods 	POST
+Returns 	HTTP headers only
+{
+  "key":{
+    "label":"sharing key",
+    "private_access": true,
+    "permissions":[
+      {
+        "access_methods":["put"],
+        "source_ip": "128.44.98.129",
+        "resources": [
+          {
+            "feed_id": 504
+          }
+        ]
+      },
+      {
+        "access_methods": ["get"],
+      }
+    ]
+  }
+}
+
+
+
+Response
+
+If the creation request was successful this method will return a HTTP 201 Created status code and return the api key within the Location header of the response, e.g.:
+
+HTTP/1.1 201 Created
+Date: Thu, 10 Sep 2012 11:10:49 GMT
+Content-Type: application/json; charset=utf-8
+Location: http://api.cosm.com/v2/keys/1nAYR5W8jUqiZJXIMwu3923Qfuq_lnFCDOKtf3kyw4g
+Content-Length: 1
+
+So for the response above the api key would be the 1nAYR5W8jUqiZJXIMwu3923Qfuq_lnFCDOKtf3kyw4g value.
