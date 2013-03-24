@@ -27,20 +27,32 @@
 	
     	<script src="js/jquery.min.js"></script>
     	<script src="js/kendo.mobile.min.js"></script>
-        <title>COSM App</title>
+        <title>MobileGullak</title>
         <script>
 	
         function onBodyLoad()
 		{		
+        	// Register the event listener
+        	
 			document.addEventListener("deviceready", onDeviceReady, false);
 		}
 	
 		/* When this function is called, PhoneGap has been initialized and is ready to roll */
 		function onDeviceReady()
 		{
+			document.removeEventListener("backbutton", onBackKeyDown, false);
+			// Back key behavior overriding
+			//document.addEventListener("backbutton", onBackKeyDown, false);
 			// do your thing!
 			//var template = kendo.template($("#home").html(), {useWithBlock:false});
 		}
+		
+		/* back key over riding call back function*/
+		function onBackKeyDown()
+		{
+		    
+		}
+		
 		</script>
 		 <style scoped>
 .button {
@@ -53,7 +65,7 @@
 }
 
 .home {
-	background: url('img/Cosm-144x144.png') no-repeat center center;
+	background: url('img/MGlogo.png') no-repeat center center;
 }
 
 #home .head {
@@ -61,8 +73,10 @@
 	margin: 1em;
 	height: 350px;
 	-webkit-background-size: 100% auto;
-	background-size: 100% auto;
+	background-size: 100% 100%;
 }
+
+
 /*
 .km-root .km-pane .km-view .km-wifi {
     background-size: 100% 100%;
@@ -72,6 +86,8 @@
 .km-ios .hmbtn { background-color: green; }
 .km-android .hmbtn { background-color: red; }
 */
+
+
 /* Custom icon 
 .km-root .km-pane .km-view .km-question {
     background-size: 100% 100%;
@@ -101,14 +117,17 @@
 	background: orange;
 } 
 */
+
 /* This changes the tabsrtips bottom strips color*/
 .km-android .km-tabstrip {
 	background: orange;
 }
+
 /* Makes everything orange in acive tab
 .km-android .km-tabstrip .km-state-active{
 	background: orange;
 }*/
+
 .km-android .heads {
 	color: green;
 }
@@ -123,9 +142,9 @@
     	<!-- Home Page layout declarations -->
     	<div id="home" data-role="view" data-title="MainPage" data-layout="home-layout">
     		<div class="home head">&nbsp;</div>   
-    		<a class="button" data-role="button" href="#KEY" style="color: #fff; background-color: #f60">Enter API key</a>
-    		<a class="button" data-role="button" href="#FEED"style="color: #fff; background-color: #f60">Feeds</a>
-   		 	<a class="button" data-role="button" href="#SETTING"style="color: #fff; background-color: #f60">Setting</a>
+    		<a class="button" data-role="button" href="geolocation.html#GEO" style="color: #f60; background-color: #fff">GeoLocation</a>
+    		<a class="button" data-role="button" href="#FEED"style="color: #f60; background-color: #fff">Feeds</a>
+   		 	<a class="button" data-role="button" href="#SETTING"style="color: #f60; background-color: #fff">Setting</a>
     		<ul data-role="listview" data-style="inset">
         		<li>
             		<p>This is a test app.
@@ -154,15 +173,13 @@
     		
     	</div>
     	<!-- Page wise layout declarations -->
-        <div id="KEY" data-role="view" data-title="Enter-API Key" data-layout="home-layout"  data-init="Accelfunct">Enter-API Key
-        	<div id="accel" data-template="accelTemplate">Enter API key</div>
-        </div>
         
-        <div id="FEED" data-role="view" data-title="Feeds" data-layout="home-layout"  data-init="Accelfunct">Create FEED
+        
+        <div id="FEED" data-role="view" data-title="Feeds" data-layout="home-layout" >Create FEED
         	<div id="accel" data-template="accelTemplate"> Create Feed</div>
         </div>
         
-        <div id="SETTING" data-role="view" data-title="Setting" data-layout="home-layout"  data-init="Accelfunct">Setting
+        <div id="SETTING" data-role="view" data-title="Setting" data-layout="home-layout" >Setting
         	<div id="accel" data-template="accelTemplate"> Setting</div>
         </div>
         
@@ -188,7 +205,7 @@
     		<div class="heads" data-role="header">
     			<div id="tab" data-role="tabstrip" >
     				<a data-icon="home" href="#home" >HOME</a>
-    				<a class="k-state-active" data-icon="add" href="#KEY">API-KEY</a>
+    				<a data-icon="globe" href="geolocation.html#GEO">GEO</a>
     				<a data-icon= "wifi" href="#FEED">FEED</a>
     				<a data-icon="about" href="#SETTING">HOME</a>
     			</div>
@@ -198,25 +215,9 @@
         
         <script type="text/javascript">
         	window.vars = ["Enter API key", "Create Feed", "Setting"];
-        	window.x; 
-        	// The watch id references the current `watchAcceleration`
-            var watchID = null;
-
+        	
         	var app = new kendo.mobile.Application(document.body, { transition: "slide" });
-        	
-        	var Accelfunct = function(){
-        		// Update acceleration every 100ms
-                var options = { frequency: 1000 };
-                
-        	}
-        	
-        	
-        	// onError: Failed to get the acceleration
-            //
-            function onError() {
-                alert('onError!');
-            }
-
+        
         </script>
     </body>
 </html>

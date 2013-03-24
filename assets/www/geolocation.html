@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>GeoLocation</title>
+
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="styles/kendo.mobile.all.min.css" />
+        <script type="text/javascript" charset="utf-8" src="cordova-2.4.0.js"></script>
+	
+    	<script src="js/jquery.min.js"></script>
+    	<script src="js/kendo.mobile.min.js"></script>
+
+    
+    
+  </head>
+  <body>
+  <div id="GEO" data-role="view" data-title="Enter-API Key" data-layout="home-layout" data-init="getLocation">GeoLocation
+        	<div id="accel" data-template="accelTemplate"></div>
+        	<p id="geolocation">Finding geolocation...</p>
+    </div>
+    <script>
+    
+    var options = { maximumAge: 3000,	 
+    				timeout: 5000, 		// timeout 
+    				enableHighAccuracy: false};	
+    var Lat = 0,
+    	Long = 0;
+    
+    function getLocation() {
+        navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
+    }
+
+ 	// onSuccess Geolocation
+    //
+    function onSuccess(position) {
+        var element = document.getElementById('geolocation');
+        Lat = position.coords.latitude;
+        Long = position.coords.longitude;
+        element.innerHTML = 'Latitude: '  +  Lat     + '<br />' +
+                            'Longitude: ' +  Long    + '<br />' +
+                            '<hr />';
+	}
+
+
+    // onError Callback receives a PositionError object
+    //
+    function onError(error) {
+        alert('code: '    + error.code    + '\n' +
+              'message: ' + error.message + '\n');
+    }
+
+    </script>
+    
+  </body>
+</html>
