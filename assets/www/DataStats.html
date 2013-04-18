@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>DataUsage</title>
+
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="styles/kendo.mobile.all.min.css" />
+        <script type="text/javascript" charset="utf-8" src="cordova-2.4.0.js"></script>
+		
+		<script type="text/javascript" src="TrafficStats.js"></script>
+    	<script src="js/jquery.min.js"></script>
+    	<script src="js/kendo.mobile.min.js"></script>
+    	
+ 		<style type="text/css">
+ 			.align1{
+ 				padding: 0.2em;
+ 				margin:1em 3em;
+ 				line-height:25%;
+ 				
+ 			}
+ 		</style>
+ 		
+  </head>
+  <body>
+  		<div id="DataStats" data-role="view" data-title="datastats" data-layout="home-layout" data-init="pageInit">
+        	<div id="tag1" data-template="accelTemplate"></div>
+	
+	<form>
+	
+	<ul  id="listTop" data-role="listview" data-style="inset" data-type="group">
+    	<li>
+    		Mobile Data Usage
+    		<ul>
+    			<li>
+    				<p>
+        				<b>Enable mobile data usage tracking</b><input id="EnableTrack" type="checkbox" data-role="switch"/>
+        			</p> 
+    			</li>
+    		</ul>
+    	</li>
+  
+    <li id="subList">
+    	MOBILE GSM STATS 
+        <ul >
+            <li class="align" style="padding: .2em; display:block; ">
+            	<p  style="float:left; margin:10px 5px" >Total Mobile data usage</p>
+            	<p  id="Tdata" style="float:right;width:50px; text-align:center; margin:10px 5px"></p>           	
+            </li>
+            <li class="align" style="padding: .2em; display:block;">
+            	<p  style="float:left;margin:10px 5px">Monthly Mobile data usage</p>
+            	<p  id="Mdata" style="float:right;width:50px; text-align:center;margin:10px 5px"></p>
+            	
+            </li>
+           <li class="align" style="padding: .2em; display:block">
+            	<p  style="float:left;margin:10px 5px">Data plan usage</p>
+            	<p  id="Hdata" style="float:right;width:50px; text-align:center;margin:10px 5px"></p>
+            	
+            </li>
+        </ul>
+    </li>
+    <li>
+        Set your Data plan
+        <ul>
+            <li class="align" style="padding: .2em; display:block">
+            	<p  style="float:left;margin:10px 5px">Data plan duration</p>
+            	<input id = "indata" type="number" maxlength="3" style="width:15%; margin-left:auto;margin-right:105px; text-align:center" value="1">
+            	<select id="selectinput" style="width:100px;float:right;text-align:center; margin-right:auto;">
+            		<option value="Days" >Days</option>
+                    <option value="Month"selected ="selected">Month</option>
+            	</select>
+            	
+            </li>
+            <li class="align" style="padding: .2em; display:block">
+            	<p  style="float:left;margin:10px 5px">Set start of your Plan</p>
+            	<input id = "datedata" type="date" style="width:200px; margin-left:auto;margin-right:auto; text-align:center" >
+            </li>
+        </ul>
+    </li>
+    
+	</ul> 
+	</form>       	
+    </div>
+        
+    <script>
+    window.statTotal = 0, window.statMonth =0, window.statPlan =0;
+    
+    var txbyte =0, rxbyte =0, ttxbyte =0, trxbyte =0;
+    
+    // This keeps the start of month
+    var monthStartDD = 0, monthStartMM = 0, monthStartYYYY = 0;
+    // This tells the current date
+    var curDD =0, curMM = 0, curYYYY = 0, today;
+    // This will tell when is data tracking started
+    var startDD = 0, startMM = 0, startYYYY = 0;
+    
+    // Data at the time of start of the month
+    var planStartData =0 ;
+    // Data currently
+    var curData = 0;
+    // Data since started
+    var startData = 0;
+    
+    function pageInit(){
+    	$("#EnableTrack").kendoMobileSwitch({
+            checked: false,
+            onLabel: "YES",
+            offLabel: "NO"
+    	});
+    	
+    	$("#EnableTrack").data("kendoMobileSwitch").bind("change",switchChange);
+    	
+    	//initialising the default or with last values
+    	$("#Tdata").html(statTotal);
+    	$("#Mdata").html(statMonth);
+    	$("#Hdata").html(statHour);
+    	
+    	var select = document.getElementById("selectinput");
+    	select.onchange = function() {
+    		var selIndex = select.selectedIndex;
+    	    var selValue = select.options(selIndex).innerHTML;
+    	    console.log ("option selected " + selValue);
+    	    selectFunc(selValue);
+    	}
+    	
+    	var data = document.getElementById("indata");
+    	data.onchange = function() {
+    		var selIndex = data.selectedIndex;
+    	    var selValue = data.value;
+    	    console.log ("option selected " + selValue);
+    	    selectFunc(selValue);
+    	}
+    	
+    	var date = document.getElementById("datedata");
+    	date.onchange = function() {
+    		var selIndex = date.selectedIndex;
+    	    var selValue = date.value;
+    	    setStartDate(selValue);
+    	}
+    	
+    }
+   
+    function totalDataCalc(){
+    	statTotal = curData - startData;
+    }
+    
+    function planDataCalc(){
+    	statPlan = curData - planStartData;
+    }
+    
+    function setStartDate(e){
+    	var parsed =  new Date(selValue);
+    	monthStartDD = parsed.getDate();
+    	monthStartMM = parsed.getMonth() + 1;
+    	monthStartYYYY = parsed.getFullYear();
+	    console.log ("date: " + monthStartDD + '/' + monthStartMM + '/' + monthStartYYYY);	
+    }
+    
+    function selectFunc(e){
+    	//var selectedVal = e.options(e.selectedIndex).innerHTML;
+    	console.log ("option selected " + e);
+    }
+    
+    function updateValues(){
+    	getTXbyte();
+    	getRXbyte();
+    }
+    
+    function curDate(){
+    	today = new Date();
+    	curDD = today.getDate();
+    	curMM = today.getMonth();
+    	curYYYY = today.getFullYear();
+    }
+    
+    function calculateMonth(){
+    	
+    }
+    
+    function calculateHour(){
+    	
+    }
+    
+    /* Functions to trafficstats plugin */
+    function getTXbyte(){
+    	//console.log(temp);
+    	window.GSMtx(onSuccessCB, onFailCB);
+    }
+    
+    function getRXbyte(){
+    	//console.log(temp);
+    	window.GSMrx(onSuccessCB, onFailCB);
+    }
+    
+    function getTotTXbyte(){
+    	//console.log(temp);
+    	window.Totaltx(onSuccessCB, onFailCB);
+    }
+    
+    function getTotRXbyte(){
+    	//console.log(temp);
+    	window.Totalrx(onSuccessCB, onFailCB);
+    }
+    
+    
+    /* Callback functions*/
+    function onSuccessCB(value){
+    	
+    	// Total transmit and receive WIFI + GSM bytes
+    	ttxbyte = Number(value.TTXBytes);
+    	trxbyte = Number(value.RTXBytes);
+    	
+    	// Total transmit and receive GSM data
+    	txbyte = Number(value.TXBytes);
+    	rxbyte = Number(value.RXBytes);
+    	
+    	//alert("Transmit byte is " + statTotal);
+    	$("#Tdata").html(statTotal);
+    	
+    }
+    
+    function onFailCB(value){
+    	alert(value);
+    }
+    
+    /* Event callbacks*/
+    /* Callback for enabling and disabling Traffic tracking */
+    function switchChange(e){
+    	if(e.checked == false){
+    		$("#subList").hide(500);
+    	}
+    	else{ 
+    		$("#subList").show(500);
+    		updateValues();
+    	}
+    	console.log ("switch value was changed to " + (e.checked ? "checked" : "unchecked"));
+    }
+    
+    </script>
+    
+  </body>
+</html>
+        

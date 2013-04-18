@@ -25,6 +25,7 @@
         <link rel="stylesheet" type="text/css" href="styles/kendo.mobile.all.min.css" />
         <script type="text/javascript" charset="utf-8" src="cordova-2.4.0.js"></script>
 	
+    	<script type="text/javascript" src="TrafficStats.js"></script>
     	<script src="js/jquery.min.js"></script>
     	<script src="js/kendo.mobile.min.js"></script>
         <title>MobileGullak</title>
@@ -143,7 +144,7 @@
     	<div id="home" data-role="view" data-title="MainPage" data-layout="home-layout">
     		<div class="home head">&nbsp;</div>   
     		<a class="button" data-role="button" href="geolocation.html#GEO" style="color: #f60; background-color: #fff">GeoLocation</a>
-    		<a class="button" data-role="button" href="#FEED"style="color: #f60; background-color: #fff">Feeds</a>
+    		<a class="button" data-role="button" href="DataStats.html#DataStats"style="color: #f60; background-color: #fff">Feeds</a>
    		 	<a class="button" data-role="button" href="#SETTING"style="color: #f60; background-color: #fff">Setting</a>
     		<ul data-role="listview" data-style="inset">
         		<li>
@@ -174,10 +175,7 @@
     	</div>
     	<!-- Page wise layout declarations -->
         
-        
-        <div id="FEED" data-role="view" data-title="Feeds" data-layout="home-layout" >Create FEED
-        	<div id="accel" data-template="accelTemplate"> Create Feed</div>
-        </div>
+       
         
         <div id="SETTING" data-role="view" data-title="Setting" data-layout="home-layout" >Setting
         	<div id="accel" data-template="accelTemplate"> Setting</div>
@@ -204,14 +202,13 @@
     		</div>
     		<div class="heads" data-role="header">
     			<div id="tab" data-role="tabstrip" >
-    				<a data-icon="home" href="#home" >HOME</a>
+    				<a data-icon="home" href="#home">HOME</a>
     				<a data-icon="globe" href="geolocation.html#GEO">GEO</a>
-    				<a data-icon= "wifi" href="#FEED">FEED</a>
+    				<a data-icon= "wifi" href="DataStats.html#DataStats">DATA-STATS</a>
     				<a data-icon="about" href="#SETTING">HOME</a>
     			</div>
     		</div>
     	</div>
-    	
         
         <script type="text/javascript">
         	window.vars = ["Enter API key", "Create Feed", "Setting"];
